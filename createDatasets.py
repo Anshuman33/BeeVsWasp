@@ -9,9 +9,9 @@ def getPaths(labelsPath):
     and second columns being the label.
     '''
     labelDf = pandas.read_csv(labelsPath)
-    trainPaths = (labelDf.loc[(labelDf.is_validation==0) & (labelDf.is_final_validation == 0)][["path","label"]]).values
-    valPaths = (labelDf.loc[(labelDf.is_validation==1) & (labelDf.is_final_validation == 0)][["path","label"]]).values
-    testPaths = (labelDf.loc[(labelDf.is_validation==0) & (labelDf.is_final_validation == 1)][["path","label"]]).values
+    trainPaths = (labelDf.loc[(labelDf.is_validation==0) & (labelDf.is_final_validation == 0) & (labelDf.photo_quality == 1)][["path","label"]]).values
+    valPaths = (labelDf.loc[(labelDf.is_validation==1) & (labelDf.is_final_validation == 0) & (labelDf.photo_quality == 1)][["path","label"]]).values
+    testPaths = (labelDf.loc[(labelDf.is_validation==0) & (labelDf.is_final_validation == 1) & (labelDf.photo_quality == 1)][["path","label"]]).values
     return trainPaths,valPaths,testPaths
 
 def copyImages(pathList,sourceBasePath,destPath,datasetType):
@@ -40,7 +40,7 @@ def copyImages(pathList,sourceBasePath,destPath,datasetType):
 labelsPath = "kaggle_bee_vs_wasp\\labels.csv"
 trainPaths,valPaths,testPaths = getPaths(labelsPath)
 sourceBasePath = "kaggle_bee_vs_wasp"
-destPath = "dataset"
+destPath = "dataset_good_quality"
 
 copyImages(trainPaths,sourceBasePath,destPath,"train")
 copyImages(valPaths,sourceBasePath,destPath,"val")
